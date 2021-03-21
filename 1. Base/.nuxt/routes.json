@@ -1,17 +1,25 @@
 [
   {
-    "name": "users",
     "path": "/users",
-    "component": "/home/juliwolf/Developing/Projects/Nuxt.js/1. Base/pages/users/index.vue",
-    "chunkName": "pages/users/index",
-    "_name": "_9bd1b60e"
-  },
-  {
-    "name": "users-id",
-    "path": "/users/:id",
-    "component": "/home/juliwolf/Developing/Projects/Nuxt.js/1. Base/pages/users/_id/index.vue",
-    "chunkName": "pages/users/_id/index",
-    "_name": "_4e731b64"
+    "component": "/home/juliwolf/Developing/Projects/Nuxt.js/1. Base/pages/users.vue",
+    "chunkName": "pages/users",
+    "children": [
+      {
+        "name": "users",
+        "path": "",
+        "component": "/home/juliwolf/Developing/Projects/Nuxt.js/1. Base/pages/users/index.vue",
+        "chunkName": "pages/users/index",
+        "_name": "_9bd1b60e"
+      },
+      {
+        "name": "users-id",
+        "path": ":id",
+        "component": "/home/juliwolf/Developing/Projects/Nuxt.js/1. Base/pages/users/_id/index.vue",
+        "chunkName": "pages/users/_id/index",
+        "_name": "_4e731b64"
+      }
+    ],
+    "_name": "_58682ef6"
   },
   {
     "name": "index",
