@@ -2,12 +2,14 @@
   <section class="post-list">
     <PostPreview
         id="1"
+        :is-admin="isAdmin"
         thumbnail="https://i1.wp.com/www.cloudsecuretech.com/wp-content/uploads/2017/03/Depositphotos_138324842_original.jpg?fit=1500%2C1001&ssl=1"
         title="Hello there!"
         previewText="This is my fist post!"
       />
       <PostPreview
         id="2"
+        :is-admin="isAdmin"
         thumbnail="https://i1.wp.com/www.cloudsecuretech.com/wp-content/uploads/2017/03/Depositphotos_138324842_original.jpg?fit=1500%2C1001&ssl=1"
         title="Hello there second time!"
         previewText="This is my second post!"
@@ -15,6 +17,7 @@
 
       <PostPreview
         id="1"
+        :is-admin="isAdmin"
         thumbnail="https://i1.wp.com/www.cloudsecuretech.com/wp-content/uploads/2017/03/Depositphotos_138324842_original.jpg?fit=1500%2C1001&ssl=1"
         title="Hi there!"
         previewText="This is my third post!"
@@ -26,6 +29,12 @@
 import PostPreview from '@/components/Posts/PostPreview'
 
 export default {
+  props: {
+    isAdmin: {
+      type: Boolean,
+      default: false
+    }
+  },
   components: {
     PostPreview
   }
