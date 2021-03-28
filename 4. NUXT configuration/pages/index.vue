@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import PostList from "@/components/Posts/PostList";
 
 export default {
   components: {
@@ -34,7 +33,7 @@ export default {
   //     ]
   //   };
   // },
-  
+
   // Executed before give to client
   // asyncData(context) {
   //   return new Promise((resolve, reject) => {

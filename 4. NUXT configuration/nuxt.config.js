@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'project',
+    title: 'WD blog',
     htmlAttrs: {
       lang: 'en'
     },
@@ -23,6 +23,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/core-components' },
+    { src: '~/plugins/date-filter' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -38,5 +40,13 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  // Настройка для полоски загрузки
+  loading: { color: '#fa923f', height: '4px', deration: 500 },
+  // dev: false
+
+  env: {
+    baseUrl: process.env.BASE_URL || 'https://nuxt-project-4c239-default-rtdb.firebaseio.com'
   }
 }
