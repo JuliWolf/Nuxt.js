@@ -18,10 +18,10 @@
 import axios from 'axios';
 
 export default {
-  async asyncData({ params, $http }) {
+  async asyncData(context) {
     try{
       // Fetch data from server
-      const response = await axios.get('https://nuxt-project-4c239-default-rtdb.firebaseio.com/posts/' + params.id + '.json');
+      const response = await axios.get('https://nuxt-project-4c239-default-rtdb.firebaseio.com/posts/' + context.params.id + '.json');
       return {
         loadedPost: response.data
       }
