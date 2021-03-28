@@ -15,7 +15,10 @@ const createStore = () => {
       nuxtServerInit(vuexContext, context) {
         if(context.store.state.loadedPosts.length > 0){
           return null;
-        }
+		}
+		if (!process.client) {
+			console.log(context.req)
+		}
         return new Promise((resolve, reject) => {
           setTimeout(() => {
             vuexContext.commit('SET_POSTS', [
