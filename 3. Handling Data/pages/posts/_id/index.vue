@@ -15,22 +15,35 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-  asyncData(context, callback) {
-    setTimeout(() => {
-      callback(null, {
-        loadedPost: {
-            id: '1',
-            title: "First Post (ID: " + context.route.params.id + ")",
-            previewText: "This is our first post!",
-            thumbnail:
-              "https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg",
-              author: "Julia",
-              updatedDate: new Date(),
-              content: 'lorem10'
-          }
-      })
-    }, 1000);
+  async asyncData({ params, $http }) {
+    try{
+      // Fetch data from server
+      const response = await axios.get('https://nuxt-project-4c239-default-rtdb.firebaseio.com/posts/' + params.id + '.json');
+      return {
+        loadedPost: response.data
+      }
+    }catch(e){
+      context.error(e)
+    }
+
+
+    // setTimeout(() => {
+    //   callback(null, {
+    //     loadedPost: {
+    //         id: '1',
+    //         title: "First Post (ID: " + context.route.params.id + ")",
+    //         previewText: "This is our first post!",
+    //         thumbnail:
+    //           "https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg",
+    //           author: "Julia",
+    //           updatedDate: new Date(),
+    //           content: 'lorem10'
+    //       }
+    //   })
+    // }, 1000);
   }
 }
 </script>
