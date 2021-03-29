@@ -28,22 +28,6 @@ export default {
     }catch(e){
       context.error(e)
     }
-
-
-    // setTimeout(() => {
-    //   callback(null, {
-    //     loadedPost: {
-    //         id: '1',
-    //         title: "First Post (ID: " + context.route.params.id + ")",
-    //         previewText: "This is our first post!",
-    //         thumbnail:
-    //           "https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg",
-    //           author: "Julia",
-    //           updatedDate: new Date(),
-    //           content: 'lorem10'
-    //       }
-    //   })
-    // }, 1000);
   }
 }
 </script>
