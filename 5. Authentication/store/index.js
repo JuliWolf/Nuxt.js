@@ -1,5 +1,6 @@
 import Vuex from 'vuex';
 import axios from 'axios';
+import Cookie from 'js-cookie';
 
 const createStore = () => {
   return new Vuex.Store({
@@ -20,6 +21,9 @@ const createStore = () => {
       },
       SET_TOKEN(state, token) {
         state.token = token;
+      },
+      CLEAR_TOKEN(state) {
+        state.token = null;
       }
     },
     actions: {
@@ -69,8 +73,43 @@ const createStore = () => {
           returnSecureToken: true
         }).then(result => {
           vuexContext.commit('SET_TOKEN', result.data.idToken);
+          localStorage.setItem('token', result.data.idToken);
+          localStorage.setItem('tokenExpiration', new Date().getTime() + result.data.expiresIn * 1000);
+          Cookie.set('jwt', result.data.idToken);
+          Cookie.set('tokenExpiration', new Date().getTime() + result.data.expiresIn * 1000);
+          vuexContext.dispatch('setLogoutTimer', result.data.expiresIn * 1000)
           // console.log(result)
         }).catch(e => console.log(e));
+      },
+
+      setLogoutTimer(vuexContext, duration) {
+        setTimeout(() => {
+          vuexContext.commit('CLEAR_TOKEN');
+        }, duration)
+      },
+      initAuth(vuexContext, req) {
+        let token = "";
+        let tokenExpiration = "";
+        if (req) {
+          if (!req.headers.cookie) {
+            return;
+          }
+          const jwtCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('jwt='));
+          if (!jwtCookie) {
+            return;
+          }
+          token = jwtCookie.split('=')[1];
+          tokenExpiration = req.headers.cookie.split(';').find(c => c.trim().startsWith('tokenExpiration=')).split('=')[1];
+        } else {
+          token = localStorage.getItem('token');
+          tokenExpiration = localStorage.getItem('tokenExpiration');
+          if (new Date().getTime() > +tokenExpiration || !token) {
+            return;
+        }
+        }
+
+        vuexContext.commit('SET_TOKEN', token);
+        vuexContext.dispatch('setLogoutTimer', +tokenExpiration - new Date().getTime())
       }
     },
     getters: {
