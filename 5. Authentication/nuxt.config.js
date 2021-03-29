@@ -41,5 +41,8 @@ export default {
   },
   router: {
     middleware: 'log'
+  },
+  env: {
+    fbAPIKey: 'AIzaSyA-3hgWeNuq9RhU3IUreQ190p3cBxEdNEM'
   }
 }
