@@ -56,8 +56,8 @@ const createStore = () => {
       editPost(vuexContext, editedPost) {
         return axios.put('https://nuxt-project-4c239-default-rtdb.firebaseio.com/posts/' + editedPost.id + '.json?auth=' + vuexContext.state.token, editedPost)
         .then(res => {
-          console.log(res)
-          vuexContext.commit('EDIT_POST', editedPost)
+          console.log(res);
+          vuexContext.commit('EDIT_POST', editedPost);
         })
         .catch(e => console.log(e))
       },
@@ -74,18 +74,10 @@ const createStore = () => {
         }).then(result => {
           vuexContext.commit('SET_TOKEN', result.data.idToken);
           localStorage.setItem('token', result.data.idToken);
-          localStorage.setItem('tokenExpiration', new Date().getTime() + result.data.expiresIn * 1000);
-          Cookie.set('jwt', result.data.idToken);
-          Cookie.set('tokenExpiration', new Date().getTime() + result.data.expiresIn * 1000);
-          vuexContext.dispatch('setLogoutTimer', result.data.expiresIn * 1000)
-          // console.log(result)
+          localStorage.setItem('tokenExpiration', new Date().getTime() + Number.parseInt(result.data.expiresIn) * 1000);
+          Cookie.set('token', result.data.idToken);
+          Cookie.set('tokenExpiration', new Date().getTime() + Number.parseInt(result.data.expiresIn) * 1000);
         }).catch(e => console.log(e));
-      },
-
-      setLogoutTimer(vuexContext, duration) {
-        setTimeout(() => {
-          vuexContext.commit('CLEAR_TOKEN');
-        }, duration)
       },
       initAuth(vuexContext, req) {
         let token = "";
@@ -94,7 +86,7 @@ const createStore = () => {
           if (!req.headers.cookie) {
             return;
           }
-          const jwtCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('jwt='));
+          const jwtCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('token='));
           if (!jwtCookie) {
             return;
           }
@@ -103,13 +95,20 @@ const createStore = () => {
         } else {
           token = localStorage.getItem('token');
           tokenExpiration = localStorage.getItem('tokenExpiration');
-          if (new Date().getTime() > +tokenExpiration || !token) {
-            return;
-        }
         }
 
+        if (new Date().getTime() > +tokenExpiration || !token) {
+			    console.log('No token or invalid token');
+          vuexContext.dispatch('logout');
+        }
         vuexContext.commit('SET_TOKEN', token);
-        vuexContext.dispatch('setLogoutTimer', +tokenExpiration - new Date().getTime())
+      },
+      logout(vuexContext) {
+        vuexContext.commit('CLEAR_TOKEN');
+        Cookie.remove('token');
+        Cookie.remove('tokenExpiration');
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenExpiration');
       }
     },
     getters: {
@@ -117,7 +116,7 @@ const createStore = () => {
         return state.loadedPosts;
       },
       isAuthenticated(state) {
-        return state.token !== null
+        return state.token !== null;
       }
     }
   })
