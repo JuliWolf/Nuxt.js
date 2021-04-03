@@ -1,0 +1,9 @@
+{
+    "vetur.format.options.tabSize": 4,
+    "editor.detectIndentation": false,
+    "html.format.indentHandlebars": true,
+    "html.format.indentInnerHtml": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "vue3snippets.tabWidth": 4
+}
